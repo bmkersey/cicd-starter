@@ -8,7 +8,9 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-  
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -21,6 +23,12 @@ jobs:
       - name: Build App
         run: scripts/buildprod.sh
       
+      - name: Install goose  
+        uses: mscno/setup-goose@v1
+        
+      - name: Runs up migrations
+        run: goose up
+
       - name: Log into Gcloud
         uses: google-github-actions/auth@v2
         with:
