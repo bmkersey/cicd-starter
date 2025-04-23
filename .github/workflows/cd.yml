@@ -27,7 +27,9 @@ jobs:
         uses: mscno/setup-goose@v1
         
       - name: Runs up migrations
-        run: goose -dir ./sql/schema sqlite3 "$DATABASE_URL" up
+        run: ./scripts/migrateup.sh
+
+
       - name: Log into Gcloud
         uses: google-github-actions/auth@v2
         with:
